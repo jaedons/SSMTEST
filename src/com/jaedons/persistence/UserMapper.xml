@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jaedons.persistence.UserMapper">
+<select id="getUsersByUsername"  parameterType="string" resultType="com.jaedons.entity.UserEntity">
+	select id,username,password,email,mobile,createtime from user 
+	where username like concat('%', #{username},'%')
+</select>
+<select id="getUserByUsernameAndPassword"  parameterType="com.jaedons.entity.UserEntity" resultType="com.jaedons.entity.UserEntity">
+	select id,username,password,email,mobile,createtime from user
+	where username = #{username} and password = #{password}
+</select>
+<select id="getAllUser" resultType="com.jaedons.entity.UserEntity">
+	select id,username,password,email,mobile,createtime from user
+</select>
+<select id="getUserById" parameterType="integer" resultType="com.jaedons.entity.UserEntity">
+	select id,username,password,email,mobile,createtime from user 
+	where id = #{id}
+</select>
+<update id="updateUser" parameterType="com.jaedons.entity.UserEntity">
+	update user set 
+	username = #{username},
+	password = #{password},
+	email = #{email,jdbcType=VARCHAR},
+	mobile = #{mobile,jdbcType=VARCHAR}
+	where id = #{id}
+</update>
+<insert id="insertUser" parameterType="com.jaedons.entity.UserEntity">
+	insert into user(username,password,email,mobile,createtime)
+	values(#{username},#{password},#{email,jdbcType=VARCHAR},#{mobile,jdbcType=VARCHAR},now())
+</insert>
+<delete id="deleteUser" parameterType="integer">
+	delete from user where id = #{id}
+</delete>
+</mapper>
+
